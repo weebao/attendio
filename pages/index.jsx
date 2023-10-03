@@ -22,11 +22,11 @@ const HomePage = ({ uca }) => {
   useEffect(() => {
     const uca = localStorage.getItem('uca')
     if (uca) {
-      setInitialUCA(uca)
+      setInitialUCA(parseInt(uca))
       setSelectedUCA(parseInt(uca))
     }
     else {
-      setInitialUCA("");
+      setInitialUCA(0);
     }
   }, [])
   
@@ -60,7 +60,7 @@ const HomePage = ({ uca }) => {
             w={{ base: '100%', md: '250px'}}
           >
             {
-              initialUCA &&
+              initialUCA !== null &&
                 <Select 
                   useBasicStyles 
                   placeholder="Select UCA"
