@@ -6,9 +6,21 @@
     "start": "next start"
   },
   "dependencies": {
+    "@chakra-ui/icons": "^2.1.1",
+    "@chakra-ui/next-js": "^2.1.5",
+    "@chakra-ui/react": "^2.8.1",
+    "@emotion/react": "^11.8.1",
+    "@emotion/styled": "^11.11.0",
+    "@tanstack/react-table": "^8.10.3",
+    "chakra-react-select": "^4.7.2",
+    "framer-motion": "^6.5.1",
+    "google-auth-library": "^8.9.0",
+    "google-spreadsheet": "^4.1.0",
+    "million": "^2.6.3",
     "next": "latest",
     "react": "18.2.0",
-    "react-dom": "18.2.0"
+    "react-dom": "18.2.0",
+    "react-query": "^3.39.3"
   },
   "engines": {
     "node": ">=18"
