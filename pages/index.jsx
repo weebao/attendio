@@ -24,8 +24,7 @@ const HomePage = ({ uca }) => {
     if (uca) {
       setInitialUCA(parseInt(uca))
       setSelectedUCA(parseInt(uca))
-    }
-    else {
+    } else {
       setInitialUCA(0);
     }
   }, [])

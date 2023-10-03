@@ -35,9 +35,8 @@ import {
 } from "@chakra-ui/react"
 import { Search2Icon, TriangleDownIcon, TriangleUpIcon } from '@chakra-ui/icons'
 import { ToggleButton } from './ToggleButton'
-import { block, For } from 'million/react-server'
 
-export const DiscussionTable = block(({ headers, data, mutationFn }) => {
+export const DiscussionTable = ({ headers, data, mutationFn }) => {
   const [sorting, setSorting] = useState([])
   const [searchInput, setSearchInput] = useState("")
 
@@ -106,7 +105,7 @@ export const DiscussionTable = block(({ headers, data, mutationFn }) => {
             ))}
           </Thead>
           <Tbody>
-            {/* {
+            {
               tableInstance.getRowModel().rows.map((row) => (
                 <Tr>
                   {
@@ -127,32 +126,10 @@ export const DiscussionTable = block(({ headers, data, mutationFn }) => {
                   }
                 </Tr>
               ))
-            } */}
-            <For each={tableInstance.getRowModel().rows}>
-              {(row => (
-                <Tr>
-                  {
-                    row.getVisibleCells().map((cell, i) => (
-                      (threeColumns || i !== 1) &&
-                        <Td>
-                          {
-                            i !== 2 ? cell.renderValue() :
-                              <ToggleButton
-                                key={cell.id}
-                                isPresent={cell.getValue()?.charAt(0) === 'P'}
-                                student={cell.id}
-                                mutateFn={mutationFn}
-                              />
-                          }
-                        </Td>
-                    ))
-                  }
-                </Tr>
-              ))}
-            </For>
+            }
           </Tbody>
         </Table>
       </TableContainer>
     </Box>
   )
-})
+}
