@@ -17,6 +17,9 @@ export default async function handler(req, res) {
     const rows = await sheet.getRows()
     switch (params[0]) {
       case 'headers': {
+        await doc.loadInfo()
+        const sheet = doc.sheetsByIndex[0]
+        const rows = await sheet.getRows()
         res.status(200).json(sheet._headerValues)
         break
       }
