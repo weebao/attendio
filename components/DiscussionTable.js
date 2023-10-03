@@ -75,7 +75,7 @@ export const DiscussionTable = ({ headers, data, mutationFn }) => {
           pointerEvents="none"
           children={<Search2Icon color="gray.300" />}
         />
-        <Input type="tel" placeholder="Search student" onChange={handleSearch} />
+        <Input type="text" placeholder="Search student" onChange={handleSearch} />
       </InputGroup>
       <TableContainer maxW="auto">
         <Table size={{ base: 'sm', md: 'md' }}>
