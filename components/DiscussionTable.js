@@ -82,7 +82,7 @@ export const DiscussionTable = ({ headers, data, mutationFn }) => {
       flexDirection="column" 
       alignItems="stretch" 
       w="100%"
-      minW={500}
+      minW={{ md: 500 }}
     >
       <Stack
         direction={{ base: 'column', md: 'row' }}
@@ -105,10 +105,13 @@ export const DiscussionTable = ({ headers, data, mutationFn }) => {
           placeholder="Select UCA"
           options={modifiedUCAList}
           onChange={filterUCA}
+          // defaultValue={modifiedUCAList[0]}
           chakraStyles={{
-            textAlign: "left"
+            container: (provided, state) => ({
+              ...provided,
+              textAlign: "left"
+            })
           }}
-          defaultValue={modifiedUCAList[0]}
         />
       </Stack>
       <TableContainer maxW="100%">
