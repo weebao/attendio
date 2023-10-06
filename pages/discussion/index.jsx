@@ -66,7 +66,7 @@ const DiscussionPage = () => {
   const reload = () => {
     setTimeout(() => {
       router.push('/discussion');
-    }, 1);
+    }, 10);
     router.push('/')
   }
 
