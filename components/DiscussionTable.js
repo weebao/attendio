@@ -105,7 +105,7 @@ export const DiscussionTable = ({ headers, data, mutationFn }) => {
           placeholder="Select UCA"
           options={modifiedUCAList}
           onChange={filterUCA}
-          // defaultValue={modifiedUCAList[0]}
+          defaultValue={modifiedUCAList[0]}
           chakraStyles={{
             container: (provided, state) => ({
               ...provided,
@@ -125,9 +125,10 @@ export const DiscussionTable = ({ headers, data, mutationFn }) => {
                       cursor={"pointer"}
                       key={header.id}
                       onClick={header.column.getToggleSortingHandler()}
+                      // pl={{ base: !header.column.getIsSorted() && 3, md: 0 }}
                     >
                       {flexRender(header.column.columnDef.Header, header.getContext())}
-                      <chakra.span pl={3}>
+                      <chakra.span pl={{ base: header.column.getIsSorted() ? 3 : 6, md: 3}}>
                         {header.column.getIsSorted() ? (
                           header.column.getIsSorted() === "desc" ? (
                             <TriangleDownIcon aria-label="sorted descending" />
