@@ -57,8 +57,12 @@ export const DiscussionTable = ({ headers, data, mutationFn }) => {
 
   const handleSearch = (e) => setSearchInput(e.target.value)
 
+  const modifiedUCAList = [
+    { value: null, label: "All UCAs" },
+    ...ucaList
+  ]
   const filterUCA = (ucaData) => {
-    tableInstance.getColumn("attendance").setFilterValue(`${ucaData.value}`)
+    tableInstance.getColumn("attendance").setFilterValue(`${ucaData.value ?? ""}`)
   }
 
   useEffect(() => {
@@ -99,11 +103,12 @@ export const DiscussionTable = ({ headers, data, mutationFn }) => {
         <Select 
           useBasicStyles 
           placeholder="Select UCA"
-          options={ucaList}
+          options={modifiedUCAList}
           onChange={filterUCA}
           chakraStyles={{
             textAlign: "left"
           }}
+          defaultValue={modifiedUCAList[0]}
         />
       </Stack>
       <TableContainer maxW="100%">
