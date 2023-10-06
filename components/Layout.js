@@ -1,5 +1,5 @@
 'use client'
-import { useState, useEffect, useRef } from "react"
+import { useState } from "react"
 import { QueryClient, QueryClientProvider } from 'react-query'
 import { CacheProvider } from '@chakra-ui/next-js'
 import { ChakraProvider, extendTheme, Box, HStack, PinInput, PinInputField, Text } from '@chakra-ui/react'
@@ -21,13 +21,6 @@ const theme = extendTheme({
 export const Layout = ({ children }) => {
   const [isValid, setIsValid] = useState(false)
   const onPasswordChange = (pwd) => pwd === "1250" && setIsValid(true)
-
-  const inputRef = useRef()
-  useEffect(() => {
-    if (inputRef.current) {
-      inputRef.current.focus()
-    }
-  }, 90)
   
   return (
     <QueryClientProvider client={new QueryClient()}>
@@ -51,7 +44,7 @@ export const Layout = ({ children }) => {
                 </Text>
                 <HStack>
                   <PinInput autoFocus onChange={onPasswordChange} >
-                    <PinInputField ref={inputRef} />
+                    <PinInputField />
                     <PinInputField />
                     <PinInputField />
                     <PinInputField />
