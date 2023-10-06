@@ -3,6 +3,7 @@ import { useState } from "react"
 import { QueryClient, QueryClientProvider } from 'react-query'
 import { CacheProvider } from '@chakra-ui/next-js'
 import { ChakraProvider, extendTheme, Box, HStack, PinInput, PinInputField, Text } from '@chakra-ui/react'
+import { Analytics } from '@vercel/analytics/react'
 
 const theme = extendTheme({
   colors: {
@@ -26,6 +27,7 @@ export const Layout = ({ children }) => {
       <CacheProvider>
         <ChakraProvider theme={theme}>
           <Box py={4} px={8}>
+            <Analytics />
             {isValid ? children :
               <Box
                 display="flex"
