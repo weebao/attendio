@@ -76,9 +76,11 @@ const SectionPage = ({ id, resetFn }) => {
     },
     {
       Header: 'Attendance',
-      accessorKey: 'attendance'
+      accessorKey: 'attendance',
+      enableColumnFilter: true
     }
   ], [])
+
   const threeColumns = useBreakpointValue({ base: false, md: true })
 
   return (

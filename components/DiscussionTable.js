@@ -29,12 +29,15 @@ import {
   ModalFooter,
   ModalBody,
   ModalCloseButton,
+  Stack,
   Text,
   useBreakpointValue,
   chakra
 } from "@chakra-ui/react"
+import { Select } from "chakra-react-select"
 import { Search2Icon, TriangleDownIcon, TriangleUpIcon } from '@chakra-ui/icons'
 import { ToggleButton } from './ToggleButton'
+import { ucaList } from '../public/ucaList'
 
 export const DiscussionTable = ({ headers, data, mutationFn }) => {
   const [sorting, setSorting] = useState([])
@@ -54,6 +57,10 @@ export const DiscussionTable = ({ headers, data, mutationFn }) => {
 
   const handleSearch = (e) => setSearchInput(e.target.value)
 
+  const filterUCA = (ucaData) => {
+    tableInstance.getColumn("attendance").setFilterValue(`${ucaData.value}`)
+  }
+
   useEffect(() => {
     let timer;
     timer = setTimeout(() => {
@@ -66,18 +73,40 @@ export const DiscussionTable = ({ headers, data, mutationFn }) => {
   const threeColumns = useBreakpointValue({ base: false, md: true })
 
   return (
-    <Box>
-      <InputGroup 
-        w={{ base: "100%", md: 600 }} 
-        mb={6}
+    <Box 
+      display="flex" 
+      flexDirection="column" 
+      alignItems="stretch" 
+      w="100%"
+      minW={500}
+    >
+      <Stack
+        direction={{ base: 'column', md: 'row' }}
+        mb={6} 
+        justifyContent="stretch"
       >
-        <InputLeftElement
-          pointerEvents="none"
-          children={<Search2Icon color="gray.300" />}
+        <InputGroup 
+          w="100%"
+          flex="1"
+        >
+          <InputLeftElement
+            pointerEvents="none"
+            children={<Search2Icon color="gray.300" />}
+          />
+          <Input type="text" placeholder="Search student" onChange={handleSearch} />
+        </InputGroup>
+        {/* Filter select for UCA */}
+        <Select 
+          useBasicStyles 
+          placeholder="Select UCA"
+          options={ucaList}
+          onChange={filterUCA}
+          chakraStyles={{
+            textAlign: "left"
+          }}
         />
-        <Input type="text" placeholder="Search student" onChange={handleSearch} />
-      </InputGroup>
-      <TableContainer maxW="auto">
+      </Stack>
+      <TableContainer maxW="100%">
         <Table size={{ base: 'sm', md: 'md' }}>
           <Thead>
             {tableInstance.getHeaderGroups().map((headerGroup) => (

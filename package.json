@@ -16,7 +16,6 @@
     "framer-motion": "^6.5.1",
     "google-auth-library": "^8.9.0",
     "google-spreadsheet": "^4.1.0",
-    "million": "^2.6.3",
     "next": "latest",
     "react": "18.2.0",
     "react-dom": "18.2.0",

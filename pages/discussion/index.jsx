@@ -48,7 +48,7 @@ const DiscussionPage = () => {
     onError: (error) => {
       console.log(`Discussions query: ${error}`)
     },
-    refetchOnWindowFocus: false,
+    refetchOnWindowFocus: false
   })
   
   const addMutation = useMutation({
@@ -62,6 +62,13 @@ const DiscussionPage = () => {
     refetchOnWindowFocus: false,
     refetchOnMount: false,
   })
+
+  const reload = () => {
+    setTimeout(() => {
+      router.push('/discussion');
+    }, 1);
+    router.push('/')
+  }
 
   return (
     <Box 
@@ -121,7 +128,7 @@ const DiscussionPage = () => {
               }
             </>
         ) : (
-          <SectionPage id={id+1} resetFn={() => router.reload()} />
+          <SectionPage id={id+1} resetFn={reload} />
         )
       }
     </Box>
