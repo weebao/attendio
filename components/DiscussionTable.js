@@ -86,7 +86,7 @@ export const DiscussionTable = ({ headers, data, mutationFn }) => {
     >
       <Stack
         direction={{ base: 'column', md: 'row' }}
-        mb={6} 
+        mb={2} 
         justifyContent="stretch"
       >
         <InputGroup 
@@ -114,6 +114,7 @@ export const DiscussionTable = ({ headers, data, mutationFn }) => {
           }}
         />
       </Stack>
+      <Text mb={6} color="#68717d" textAlign="left">*You can click/tap to sort the columns</Text>
       <TableContainer maxW="100%">
         <Table size={{ base: 'sm', md: 'md' }}>
           <Thead>
