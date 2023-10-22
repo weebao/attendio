@@ -62,7 +62,7 @@ export const DiscussionTable = ({ headers, data, mutationFn }) => {
     ...ucaList
   ]
   const filterUCA = (ucaData) => {
-    tableInstance.getColumn("attendance").setFilterValue(`${ucaData.value ?? ""}`)
+    tableInstance.getColumn("attendance").setFilterValue(ucaData.value !== null ? `P-${ucaData.value}` : "")
   }
 
   useEffect(() => {

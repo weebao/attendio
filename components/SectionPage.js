@@ -77,7 +77,8 @@ const SectionPage = ({ id, resetFn }) => {
     {
       Header: 'Attendance',
       accessorKey: 'attendance',
-      enableColumnFilter: true
+      enableColumnFilter: true,
+      filterFn: 'equalsString'
     }
   ], [])
 
