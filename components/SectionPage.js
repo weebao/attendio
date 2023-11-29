@@ -31,7 +31,9 @@ import { ArrowBackIcon, Search2Icon } from '@chakra-ui/icons'
 
 const SectionPage = ({ id, resetFn }) => {
   const discussionDate = new Date("September 13, 2023")
-  discussionDate.setDate(discussionDate.getDate() + 7 * (id - (1 ? id < 5 : 0) + (1 ? id > 7 : 0)))
+  const weeksToSkip = [5, 8, 9]
+  const weekOffset = weeksToSkip.reduce((acc, week) => acc + (id >= week ? 1 : 0), 0)
+  discussionDate.setDate(discussionDate.getDate() + 7 * (id + weekOffset - 1))
   const [studentData, setStudentData] = useState(null)
     
   const discussionQuery = useQuery({
