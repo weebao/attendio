@@ -1,7 +1,7 @@
-import { useState, useEffect, useMemo } from 'react'
-import { useRouter } from 'next/router'
-import { useQuery, useMutation } from 'react-query'
-import { 
+import { useState, useEffect, useMemo } from "react";
+import { useRouter } from "next/router";
+import { useQuery, useMutation } from "react-query";
+import {
   Alert,
   AlertIcon,
   AlertTitle,
@@ -21,70 +21,73 @@ import {
   Thead,
   Tr,
   Spinner,
-  useBreakpointValue
-} from '@chakra-ui/react'
-import { ucaList } from '../public/ucaList'
-import { getDiscussionData, setPresent, setAbsent } from '../fetch/sheet'
-import { ToggleButton } from './ToggleButton'
-import { DiscussionTable } from './DiscussionTable'
-import { ArrowBackIcon, Search2Icon } from '@chakra-ui/icons'
+  useBreakpointValue,
+} from "@chakra-ui/react";
+import { ucaList } from "../public/ucaList";
+import { getDiscussionData, setPresent, setAbsent } from "../fetch/sheet";
+import { ToggleButton } from "./ToggleButton";
+import { DiscussionTable } from "./DiscussionTable";
+import { ArrowBackIcon, Search2Icon } from "@chakra-ui/icons";
 
 const SectionPage = ({ id, resetFn }) => {
-  const discussionDate = new Date("September 13, 2023")
-  const weeksToSkip = [5, 8, 9]
-  const weekOffset = weeksToSkip.reduce((acc, week) => acc + (id >= week ? 1 : 0), 0)
-  discussionDate.setDate(discussionDate.getDate() + 7 * (id + weekOffset - 1))
-  const [studentData, setStudentData] = useState(null)
-    
+  const discussionDate = new Date("September 13, 2023");
+  const weeksToSkip = [5, 8, 9];
+  const weekOffset = weeksToSkip.reduce((acc, week) => acc + (id >= week ? 1 : 0), 0);
+  discussionDate.setDate(discussionDate.getDate() + 7 * (id + weekOffset - 1));
+  const [studentData, setStudentData] = useState(null);
+
   const discussionQuery = useQuery({
     queryFn: () => getDiscussionData(id),
     onSuccess: (data) => {
-      setStudentData(data)
+      setStudentData(data);
     },
     onError: (error) => {
-      console.log(`Discussion ${id} query: ${err}`)
+      console.log(`Discussion ${id} query: ${error}`);
     },
     enabled: id !== undefined,
     refetchOnWindowFocus: false,
-  })
+  });
 
   const attendanceMutation = useMutation({
     mutationFn: (data) => {
-      let uca = localStorage.getItem('uca')
+      let uca = localStorage.getItem("uca");
       if (data[0]) {
-        return setPresent(data[1], id, uca)
+        return setPresent(data[1], id, uca);
       } else {
-        return setAbsent(data[1], id, uca)
+        return setAbsent(data[1], id, uca);
       }
     },
     onSuccess: (data) => {
-      discussionQuery.refetch()
+      discussionQuery.refetch();
     },
     onError: (error) => {
-      console.log(`Attendance Mutation: ${err}`)
-    }
-  })
-  
-  const headers = useMemo(() => [
-    {
-      Header: 'Name',
-      accessorKey: 'name',
-      enableGlobalFilter: true
+      console.log(`Attendance Mutation: ${error}`);
     },
-    {
-      Header: 'Preferred Name',
-      accessorKey: 'preferredName',
-      enableGlobalFilter: true
-    },
-    {
-      Header: 'Attendance',
-      accessorKey: 'attendance',
-      enableColumnFilter: true,
-      filterFn: 'equalsString'
-    }
-  ], [])
+  });
 
-  const threeColumns = useBreakpointValue({ base: false, md: true })
+  const headers = useMemo(
+    () => [
+      {
+        Header: "Name",
+        accessorKey: "name",
+        enableGlobalFilter: true,
+      },
+      {
+        Header: "Preferred Name",
+        accessorKey: "preferredName",
+        enableGlobalFilter: true,
+      },
+      {
+        Header: "Attendance",
+        accessorKey: "attendance",
+        enableColumnFilter: true,
+        filterFn: "equalsString",
+      },
+    ],
+    []
+  );
+
+  const threeColumns = useBreakpointValue({ base: false, md: true });
 
   return (
     <Box
@@ -117,7 +120,7 @@ const SectionPage = ({ id, resetFn }) => {
         )
       }
     </Box>
-  )
+  );
 }
 
-export default SectionPage
+export default SectionPage;

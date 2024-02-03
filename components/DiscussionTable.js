@@ -1,11 +1,11 @@
-import { useState, useEffect } from "react"
+import { useState, useEffect } from "react";
 import { 
   useReactTable, 
   flexRender, 
   getCoreRowModel, 
   getSortedRowModel,
   getFilteredRowModel
-} from '@tanstack/react-table'
+} from "@tanstack/react-table";
 import {
   Box,
   Input,
@@ -33,15 +33,15 @@ import {
   Text,
   useBreakpointValue,
   chakra
-} from "@chakra-ui/react"
-import { Select } from "chakra-react-select"
-import { Search2Icon, TriangleDownIcon, TriangleUpIcon } from '@chakra-ui/icons'
-import { ToggleButton } from './ToggleButton'
-import { ucaList } from '../public/ucaList'
+} from "@chakra-ui/react";
+import { Select } from "chakra-react-select";
+import { Search2Icon, TriangleDownIcon, TriangleUpIcon } from "@chakra-ui/icons";
+import { ToggleButton } from "./ToggleButton";
+import { ucaList } from "../public/ucaList";
 
 export const DiscussionTable = ({ headers, data, mutationFn }) => {
-  const [sorting, setSorting] = useState([])
-  const [searchInput, setSearchInput] = useState("")
+  const [sorting, setSorting] = useState([]);
+  const [searchInput, setSearchInput] = useState("");
 
   const tableInstance = useReactTable({
     data,
@@ -53,28 +53,28 @@ export const DiscussionTable = ({ headers, data, mutationFn }) => {
     state: {
       sorting
     }
-  })
+  });
 
-  const handleSearch = (e) => setSearchInput(e.target.value)
+  const handleSearch = (e) => setSearchInput(e.target.value);
 
   const modifiedUCAList = [
     { value: null, label: "All UCAs" },
     ...ucaList
-  ]
+  ];
   const filterUCA = (ucaData) => {
-    tableInstance.getColumn("attendance").setFilterValue(ucaData.value !== null ? `P-${ucaData.value}` : "")
-  }
+    tableInstance.getColumn("attendance").setFilterValue(ucaData.value !== null ? `P-${ucaData.value}` : "");
+  };
 
   useEffect(() => {
     let timer;
     timer = setTimeout(() => {
-      tableInstance.setGlobalFilter(searchInput)
-    }, 100)
-    return () => clearTimeout(timer)
-  }, [searchInput])
+      tableInstance.setGlobalFilter(searchInput);
+    }, 100);
+    return () => clearTimeout(timer);
+  }, [searchInput]);
 
 
-  const threeColumns = useBreakpointValue({ base: false, md: true })
+  const threeColumns = useBreakpointValue({ base: false, md: true });
 
   return (
     <Box 
@@ -99,20 +99,6 @@ export const DiscussionTable = ({ headers, data, mutationFn }) => {
           />
           <Input type="text" placeholder="Search student" onChange={handleSearch} />
         </InputGroup>
-        {/* Filter select for UCA */}
-        <Select 
-          useBasicStyles 
-          placeholder="Select UCA"
-          options={modifiedUCAList}
-          onChange={filterUCA}
-          defaultValue={modifiedUCAList[0]}
-          chakraStyles={{
-            container: (provided, state) => ({
-              ...provided,
-              textAlign: "left"
-            })
-          }}
-        />
       </Stack>
       <Text mb={6} color="#68717d" textAlign="left">*You can click/tap to sort the columns</Text>
       <TableContainer maxW="100%">
@@ -128,7 +114,7 @@ export const DiscussionTable = ({ headers, data, mutationFn }) => {
                       onClick={header.column.getToggleSortingHandler()}
                       // pl={{ base: !header.column.getIsSorted() && 3, md: 0 }}
                     >
-                      {flexRender(header.column.columnDef.Header, header.getContext())}
+                      {i === 2 ? "Attendance" : flexRender(header.column.columnDef.Header, header.getContext())}
                       <chakra.span pl={{ base: header.column.getIsSorted() ? 3 : 6, md: 3}}>
                         {header.column.getIsSorted() ? (
                           header.column.getIsSorted() === "desc" ? (
@@ -170,5 +156,5 @@ export const DiscussionTable = ({ headers, data, mutationFn }) => {
         </Table>
       </TableContainer>
     </Box>
-  )
+  );
 }

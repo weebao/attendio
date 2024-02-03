@@ -2,18 +2,38 @@
   
 import Head from 'next/head'
 import "../styles/globals.css"
-import { Layout } from '../components/Layout'
+import { QueryClient, QueryClientProvider } from 'react-query'
+import { ChakraProvider, extendTheme } from '@chakra-ui/react'
+import { Analytics } from '@vercel/analytics/react'
   
 function MyApp({ Component, pageProps }) {
-    return (
-        <Layout>
-            <Head>
-                <title>CS250 Roster</title>
-                <link rel="icon" href="/logo.png" />
-            </Head>
+  const theme = extendTheme({
+    colors: {
+      brand: {
+        100: "#f7fafc",
+        200: "#edf2f7",
+        900: "#1a202c",
+      },
+    },
+    config: {
+      initialColorMode: "dark",
+      useSystemColorMode: false,
+    }
+  })
+
+  return (
+      <>
+        <Head>
+          <link rel="icon" href="/favicon.png" />
+        </Head>
+        <QueryClientProvider client={new QueryClient()}>
+          <ChakraProvider theme={theme}>
+            <Analytics />
             <Component {...pageProps} />
-        </Layout>
-    );
+          </ChakraProvider>
+        </QueryClientProvider>
+      </>
+  );
 }
   
 export default MyApp;
