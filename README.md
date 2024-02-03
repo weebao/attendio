@@ -12,3 +12,7 @@ I met all 3 conditions above while being a TA for a class, so I built this out o
 1. Clone this repository
 2. Run `npm install` to install all the dependencies
 3. Run `npm run dev` to start the app on development mode
+
+## Showcases
+![Syncing with Google Sheets](public/main-page.jpeg)
+![Taking Attendance](public/table-page.jpeg)

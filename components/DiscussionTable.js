@@ -55,6 +55,9 @@ export const DiscussionTable = ({ headers, data, mutationFn }) => {
     }
   });
 
+  console.log(headers)
+  console.log(data)
+
   const handleSearch = (e) => setSearchInput(e.target.value);
 
   const modifiedUCAList = [

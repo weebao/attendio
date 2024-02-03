@@ -157,7 +157,7 @@ const TablePage = () => {
             />
             {
               discussionQuery.isLoading || studentData === null ? <Skeleton w="100px" h="40px" borderRadius="0.375rem"/> : (
-                <Text fontSize={{ base: "2xl" }} fontWeight="bold" as="h2">{headers[2].Header}</Text>
+                <Text fontSize={{ base: "2xl" }} fontWeight="bold" as="h2">{headers.at(-1).Header}</Text>
               )
             }
             <Box w={8}/>

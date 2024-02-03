@@ -36,10 +36,12 @@ export default async function handler(req, res) {
         const body = rows.map((row) => ({
           col1: Number.isInteger(parseInt(col1)) ? row._rawData[parseInt(col1)]?.trim() ?? null : null,
           col2: Number.isInteger(parseInt(col2)) ? row._rawData[parseInt(col2)]?.trim() ?? null : null,
-          attendance: (row._rawData[id])?.trim() ?? "",
+          attendance: (row._rawData[parseInt(id)])?.trim() ?? "",
         }));
         res.status(200).json({
-          headers: sheet._headerValues,
+          headers: sheet._headerValues.filter((e, i) => {
+            return i === parseInt(col1) || i === parseInt(col2) || i === parseInt(id);
+          }),
           body
         });
         break;
