@@ -9,13 +9,13 @@ const serviceAccountAuth = new JWT({
 
 export default async function handler(req, res) {
   try {
-    const { params } = req.query;
-    if (!params[0]) return;
-    const doc = new GoogleSpreadsheet(params[0], serviceAccountAuth);
+    if (!req.query.sheetId) return;
+    const { params, sheetId } = req.query;
+    const doc = new GoogleSpreadsheet(sheetId, serviceAccountAuth);
     await doc.loadInfo();
     const sheet = doc.sheetsByIndex[0];
     const rows = await sheet.getRows();
-    switch (params[1]) {
+    switch (params[0]) {
       case "headers": {
         await doc.loadInfo();
         const sheet = doc.sheetsByIndex[0];
@@ -32,15 +32,15 @@ export default async function handler(req, res) {
         break;
       }
       case "table": {
-        const { id, col1, col2 } = req.query;
+        const { sectionId, col1, col2 } = req.query;
         const body = rows.map((row) => ({
           col1: Number.isInteger(parseInt(col1)) ? row._rawData[parseInt(col1)]?.trim() ?? null : null,
           col2: Number.isInteger(parseInt(col2)) ? row._rawData[parseInt(col2)]?.trim() ?? null : null,
-          attendance: (row._rawData[parseInt(id)])?.trim() ?? "",
+          attendance: (row._rawData[parseInt(sectionId)])?.trim() ?? "",
         }));
         res.status(200).json({
           headers: sheet._headerValues.filter((e, i) => {
-            return i === parseInt(col1) || i === parseInt(col2) || i === parseInt(id);
+            return i === parseInt(col1) || i === parseInt(col2) || i === parseInt(sectionId);
           }),
           body
         });

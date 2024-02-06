@@ -1,4 +1,3 @@
-"use client";
 import { useState } from "react";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { ChakraProvider } from "@chakra-ui/react";

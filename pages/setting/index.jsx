@@ -28,16 +28,8 @@ import {
   Text,
   useDisclosure,
 } from "@chakra-ui/react";
-import { PhoneIcon, AddIcon, EditIcon, WarningIcon } from "@chakra-ui/icons";
+import { PhoneIcon, AddIcon, ArrowBackIcon, EditIcon, WarningIcon } from "@chakra-ui/icons";
 import { getHeaders, addNewColumn } from "../../fetch/sheet";
-
-const SectionPage = dynamic(() => import("../../components/SectionPage"), {
-  loading: () => (
-    <Center>
-      <Spinner size="xl" />
-    </Center>
-  ),
-});
 
 const SettingPage = () => {
   const router = useRouter();
@@ -169,7 +161,20 @@ const SettingPage = () => {
             onClick={() => router.push("/")}
           />
         </HStack>
-        <Text fontSize={{ base: "lg", md: "xl" }} fontWeight="500" mb={4} as="h2" textAlign="left">Please select the columns you want to display</Text>
+        <HStack justifyContent="space-between" alignItems="center" w="full" mb={4}>
+          <IconButton 
+            aria-label='Back to menu'
+            icon={<ArrowBackIcon />}
+            h={8}
+            w={8}
+            minWidth={8}
+            pt={0.5}
+            bg="transparent"
+            onClick={() => router.push("/")}
+          />
+          <Text fontSize={{ base: "lg", md: "xl" }} fontWeight="500" as="h2" textAlign="center">Choose the section to take attendance</Text>
+          <Box w={8} />
+        </HStack>
         <Text>You can only display 2 non-attendance columns. Click again to toggle the types:</Text>
         <VStack
           align="start"
@@ -200,9 +205,9 @@ const SettingPage = () => {
             </Flex>
           ) : (
             discussionQuery.isError ? (
-              <Alert status='error' minWidth="2.5rem">
+              <Alert status="error" mt={4} display={error ? "flex" : "none"} borderRadius={8}>
                 <AlertIcon />
-                <AlertTitle fontWeight={500}>There was an error loading data from Google Sheets</AlertTitle>
+                <AlertTitle fontWeight="500">{error}</AlertTitle>
               </Alert>
             ) : (
               <Flex

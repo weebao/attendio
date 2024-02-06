@@ -28,28 +28,20 @@ import {
   Text,
   useDisclosure
 } from "@chakra-ui/react";
-import { PhoneIcon, AddIcon, EditIcon, WarningIcon } from "@chakra-ui/icons";
+import { PhoneIcon, AddIcon, ArrowBackIcon, EditIcon, WarningIcon } from "@chakra-ui/icons";
 import { SingleDatepicker } from "chakra-dayzed-datepicker";
 import { getHeaders, addNewColumn } from "../../fetch/sheet";
 import { datepickerStyles } from "../../styles/datepicker";
-
-const SectionPage = dynamic(() => import("../../components/SectionPage"), {
-  loading: () => (
-    <Center>
-      <Spinner size="xl" />
-    </Center>
-  )
-});
 
 const SelectPage = () => {
   const router = useRouter();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [name, setName] = useState("");
-  const [newSectionName, setNewSectionName] = useState("");
-  const [newSectionDate, setNewSectionDate] = useState(new Date());
   const [sheetId, setSheetId] = useState("");
   const [headers, setHeaders] = useState(null);
   const [attendanceFirstCol, setAttendanceFirstCol] = useState(-1);
+  const [newSectionName, setNewSectionName] = useState("");
+  const [newSectionDate, setNewSectionDate] = useState(new Date());
   const [infoCols, setInfoCols] = useState([]);
   const [error, setError] = useState("");
 
@@ -64,6 +56,8 @@ const SelectPage = () => {
     onSuccess: (data) => {
       if (!Array.isArray(data)) return;
       setHeaders(data);
+      setNewSectionName(`Section ${data.length - attendanceFirstCol + 1}`);
+      onClose();
     },
     onError: (error) => {
       console.log(`Discussions query: ${error}`);
@@ -73,9 +67,8 @@ const SelectPage = () => {
   });
 
   const addMutation = useMutation({
-    mutationFn: () => addNewColumn(sheetId, newSectionName),
+    mutationFn: (sectionName) => addNewColumn(sheetId, sectionName),
     onSuccess: (data) => {
-      setNewSectionName("");
       discussionQuery.refetch();
     },
     onError: (error) => {
@@ -118,9 +111,11 @@ const SelectPage = () => {
   const confirmButtonRef = useRef(null);
 
   const handleAddNewCol = () => {
-    // addMutation.mutate();
-    setDate(new Date());
-    onClose();
+    addMutation.mutate(`${newSectionName} (${newSectionDate.toLocaleDateString('en-US', { 
+      month: 'numeric', 
+      day: 'numeric', 
+      year: 'numeric' 
+    })})`);
   };
 
   const handleEnterKeyPress = (e) => {
@@ -172,7 +167,20 @@ const SelectPage = () => {
             onClick={() => router.push("/")}
           />
         </HStack>
-        <Text fontSize={{ base: "lg", md: "xl" }} fontWeight="500" mb={4} as="h2" textAlign="center">Choose the section to take attendance</Text>
+        <HStack justifyContent="space-between" alignItems="center" w="full" mb={4}>
+          <IconButton 
+            aria-label='Back to setting'
+            icon={<ArrowBackIcon />}
+            h={8}
+            w={8}
+            minWidth={8}
+            pt={0.5}
+            bg="transparent"
+            onClick={() => router.push("/setting")}
+          />
+          <Text fontSize={{ base: "lg", md: "xl" }} fontWeight="500" as="h2" textAlign="center">Choose the section to take attendance</Text>
+          <Box w={8} />
+        </HStack>
         {
           discussionQuery.isLoading ? (
             <Flex gap="4">
@@ -222,7 +230,7 @@ const SelectPage = () => {
               <Box mb={2}>
                 <Text mb={1}>Section name</Text>
                 <Input
-                  value={`Section ${headers?.length - attendanceFirstCol + 1 ?? 1}`}
+                  value={newSectionName}
                   onChange={(e) => setNewSectionName(e.target.value)} 
                   onKeyPress={handleEnterKeyPress} 
                   placeholder="Section name"
@@ -246,7 +254,14 @@ const SelectPage = () => {
                   Cancel
                 </Button>
                 <Button ref={confirmButtonRef} colorScheme="blue" onClick={handleAddNewCol}>
-                  Confirm
+                  {discussionQuery.isRefetching || addMutation.isLoading ? (
+                    <HStack spacing={2}>
+                      <Spinner size="sm" />
+                      <Text>Adding</Text>
+                    </HStack>
+                  ) : (
+                    <Text>Confirm</Text>
+                  )}
                 </Button>
               </HStack>
             </ModalFooter>
